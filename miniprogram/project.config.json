@@ -1,0 +1,19 @@
+{
+  "description": "记得住微信小程序",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "bundle": false,
+    "es6": true,
+    "enhance": true,
+    "minified": false,
+    "postcss": true,
+    "urlCheck": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.6.0",
+  "appid": "wxf05918aa92f7de56",
+  "projectname": "jidezhu",
+  "simulatorType": "wechat"
+}

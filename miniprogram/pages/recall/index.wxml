@@ -1,0 +1,59 @@
+<view class="page-shell">
+  <view class="card recall-hero">
+    <text class="title-md">找回忆</text>
+    <text class="text-md">{{queryHint}}</text>
+    <voice-record-button
+      state="{{queryRecordingState}}"
+      bind:recordstart="onQueryRecordStart"
+      bind:recordend="onQueryRecordEnd"
+      bind:recordcancel="onQueryRecordCancel"
+    />
+  </view>
+
+  <view class="quick-question-grid">
+    <view
+      wx:for="{{quickQuestions}}"
+      wx:key="*this"
+      class="quick-question-item card"
+      data-question="{{item}}"
+      bindtap="handleQuickQuestion"
+    >
+      <text class="text-sm">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="preset-grid">
+    <view
+      wx:for="{{presetOptions}}"
+      wx:key="key"
+      class="preset-item card {{activePreset === item.key ? 'preset-item-active' : ''}}"
+      data-preset="{{item.key}}"
+      bindtap="handlePresetTap"
+    >
+      <text class="text-md">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="card section">
+    <text class="title-md">时间回忆</text>
+    <text wx:if="{{loading}}" class="text-md">正在帮您回想这些事情...</text>
+    <text wx:elif="{{errorMessage}}" class="text-md">{{errorMessage}}</text>
+    <text wx:else class="text-md">{{summaryText || '这一段时间暂时没有新记录。'}}</text>
+  </view>
+
+  <view wx:if="{{!loading && !items.length}}" class="card item-empty">
+    <text class="text-md">还没有可回顾的记忆</text>
+    <text class="text-sm muted">您可以先在首页说一句，记得住会帮您整理。</text>
+  </view>
+
+  <view wx:else class="list">
+    <view wx:for="{{items}}" wx:key="id" class="card item">
+      <text class="text-md">{{item.summary}}</text>
+      <text class="text-sm muted">{{item.timeText}}</text>
+      <view class="item-actions">
+        <button class="play-btn" data-text="{{item.sourceText || item.summary}}" data-memory-id="{{item.id}}" loading="{{playingMemoryId === item.id}}" bindtap="handlePlayMemory">读给我听</button>
+        <button class="delete-btn" data-memory-id="{{item.id}}" bindtap="handleDeleteMemory">删除</button>
+      </view>
+    </view>
+  </view>
+</view>

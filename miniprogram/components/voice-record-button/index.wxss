@@ -1,0 +1,22 @@
+.record-circle {
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 999rpx;
+  background: #b64d2e;
+  color: #fffaf2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14rpx 36rpx rgba(182, 77, 46, 0.22);
+  transition: transform 0.2s ease;
+}
+
+.record-circle-active {
+  transform: scale(0.96);
+  background: #9d3f25;
+}
+
+.record-text {
+  font-size: 44rpx;
+  font-weight: 700;
+}

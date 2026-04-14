@@ -1,0 +1,9 @@
+<view wx:if="{{replyText}}" class="player-shell card">
+  <text class="title-md">确认播报</text>
+  <text class="text-md">{{replyText}}</text>
+  <text class="text-sm muted">当前状态：{{playbackStateLabel}}</text>
+  <view class="player-actions">
+    <button class="player-btn" bindtap="handleReplay">重播</button>
+    <button class="player-btn player-btn-secondary" bindtap="handleStop">停止</button>
+  </view>
+</view>

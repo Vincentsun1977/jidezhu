@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "requestId": "req_home_001",
+  "data": {
+    "greeting": "晚上好",
+    "todayReminderCount": 2,
+    "todayReminderSummary": "今天有 2 条提醒，其中 1 条和吃药有关。",
+    "todayImportantMemories": [
+      "今晚八点吃降压药",
+      "记得买牛奶和鸡蛋",
+      "下个月想去苏州旅游"
+    ],
+    "promptText": "今天有 2 条提醒，要不要我读给你听？",
+    "replyAudioFileId": "mock://audio/home-summary"
+  }
+}

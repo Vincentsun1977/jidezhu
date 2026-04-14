@@ -1,0 +1,41 @@
+page {
+  min-height: 100%;
+  background: #f6efe4;
+  color: #1f1d1a;
+  font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+.page-shell {
+  padding: 24rpx;
+}
+
+.card {
+  background: #fffaf2;
+  border: 2rpx solid #d9c8a9;
+  border-radius: 28rpx;
+  box-sizing: border-box;
+}
+
+.title-lg {
+  font-size: 42rpx;
+  font-weight: 700;
+}
+
+.title-md {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.text-md {
+  font-size: 30rpx;
+  line-height: 1.6;
+}
+
+.text-sm {
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+.muted {
+  color: #6f6250;
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "记得住",
+  "usingComponents": {
+    "voice-record-button": "/components/voice-record-button/index",
+    "audio-reply-player": "/components/audio-reply-player/index"
+  }
+}

@@ -1,0 +1,24 @@
+.settings-card {
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.picker-value,
+.digest-input {
+  min-height: 72rpx;
+  border-radius: 18rpx;
+  background: #f7f1e8;
+  padding: 18rpx 20rpx;
+  font-size: 30rpx;
+  color: #382d20;
+}
+
+.save-btn {
+  border-radius: 20rpx;
+  background: #b64d2e;
+  color: #fffaf2;
+  font-size: 30rpx;
+}

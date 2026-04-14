@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "requestId": "req_text_001",
+  "data": {
+    "memoryId": "mem_002",
+    "summary": "想买鸡蛋和牛奶",
+    "memoryType": "shopping",
+    "needsReminder": false,
+    "replyText": "我帮你记下了，你想买鸡蛋和牛奶。"
+  }
+}

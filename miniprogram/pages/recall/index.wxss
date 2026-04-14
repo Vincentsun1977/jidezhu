@@ -1,0 +1,91 @@
+.recall-hero {
+  padding: 28rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18rpx;
+  margin-bottom: 24rpx;
+  background: linear-gradient(180deg, #fff9f2 0%, #f2e0c4 100%);
+}
+
+.quick-question-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.quick-question-item {
+  padding: 20rpx;
+  min-height: 112rpx;
+  display: flex;
+  align-items: center;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.preset-item {
+  min-height: 88rpx;
+  padding: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preset-item-active {
+  background: #ead6b1;
+  border-color: #b68139;
+}
+
+.section,
+.item {
+  padding: 24rpx;
+}
+
+.item-empty {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.list {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.item-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.play-btn,
+.delete-btn {
+  flex: 1;
+  margin-top: 8rpx;
+  border-radius: 18rpx;
+  font-size: 26rpx;
+}
+
+.play-btn {
+  background: #e9dcc5;
+  color: #5f4a31;
+}
+
+.delete-btn {
+  background: #f7e4de;
+  color: #9b4027;
+}

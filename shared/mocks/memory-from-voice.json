@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "requestId": "req_voice_001",
+  "data": {
+    "memoryId": "mem_001",
+    "summary": "晚上要吃降压药",
+    "memoryType": "medicine",
+    "needsReminder": true,
+    "replyText": "我记住了，你晚上要吃降压药。",
+    "replyAudioFileId": "mock://audio/confirm-medicine"
+  }
+}

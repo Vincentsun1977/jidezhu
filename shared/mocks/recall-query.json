@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "requestId": "req_recall_001",
+  "data": {
+    "summary": "上周你记录了 3 件事，包括吃药、购物和旅游计划。",
+    "items": [
+      {
+        "memoryId": "mem_001",
+        "summary": "晚上要吃降压药",
+        "timeText": "上周二晚上"
+      },
+      {
+        "memoryId": "mem_002",
+        "summary": "想买鸡蛋和牛奶",
+        "timeText": "上周三上午"
+      },
+      {
+        "memoryId": "mem_003",
+        "summary": "下个月想去苏州旅游",
+        "timeText": "上周五下午"
+      }
+    ],
+    "replyAudioFileId": "mock://audio/recall-last-week"
+  }
+}

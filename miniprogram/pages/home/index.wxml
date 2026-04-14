@@ -1,0 +1,93 @@
+<view class="page-shell">
+  <view class="home-header">
+    <view class="home-header-top">
+      <text class="title-lg">{{greetingText || '晚上好'}}</text>
+      <button class="settings-entry" bindtap="openSettings">设置</button>
+    </view>
+    <text class="text-md muted">记得住会帮您把重要事情记下来。</text>
+  </view>
+
+  <view class="card summary-card">
+    <view class="summary-card-top">
+      <text class="title-md">今日提醒</text>
+      <button class="summary-play-btn" bindtap="handleListenTodaySummary">读给我听</button>
+    </view>
+    <text class="text-md">{{todayReminderSummary}}</text>
+    <text class="text-sm muted">{{promptText}}</text>
+  </view>
+
+  <view class="card voice-hub-card">
+    <text class="title-md">按住说话</text>
+    <text class="text-sm muted">想记事情，想找回忆，都可以直接告诉我</text>
+    <voice-record-button
+      state="{{recordingState}}"
+      bind:recordstart="onRecordStart"
+      bind:recordend="onRecordEnd"
+      bind:recordcancel="onRecordCancel"
+    />
+    <text class="text-sm muted">当前状态：{{recordingStateLabel}}</text>
+    <text class="text-sm muted">{{busyHint}}</text>
+    <view class="voice-hub-examples">
+      <text class="text-sm muted">比如：帮我记一下明天开会</text>
+      <text class="text-sm muted">比如：我上次去的是哪个医院</text>
+    </view>
+    <button class="text-entry-btn" bindtap="toggleTextEntry">
+      {{textEntryVisible ? '收起文字记录' : '不会说也可以写下来'}}
+    </button>
+  </view>
+
+  <view class="support-actions-grid">
+    <view class="card support-action-card">
+      <text class="title-md">找回忆</text>
+      <text class="text-sm muted">如果您想慢慢找，也可以打开找回忆页</text>
+      <button class="recall-entry-btn" bindtap="openRecallPage">打开找回忆</button>
+    </view>
+    <view class="card support-action-card">
+      <text class="title-md">提醒一下</text>
+      <text class="text-sm muted">需要留个小提醒，也可以一键先记上</text>
+      <button class="text-entry-btn" loading="{{creatingReminder}}" bindtap="createQuickReminder">
+        一小时后提醒我
+      </button>
+    </view>
+  </view>
+
+  <audio-reply-player
+    replyText="{{replyText}}"
+    playbackState="{{playbackState}}"
+    playbackStateLabel="{{playbackStateLabel}}"
+    bind:replay="onReplayReply"
+    bind:stop="onStopReply"
+  />
+
+  <view wx:if="{{textEntryVisible}}" class="card text-entry-card">
+    <text class="title-md">文字补录</text>
+    <textarea
+      class="text-entry-area"
+      placeholder="比如：记一下，我想买鸡蛋和牛奶"
+      value="{{textDraft}}"
+      bindinput="onTextInput"
+      maxlength="120"
+    />
+    <button class="save-btn" loading="{{submittingText}}" bindtap="submitTextMemory">保存这句话</button>
+  </view>
+
+  <view class="quick-grid">
+    <view
+      wx:for="{{quickActions}}"
+      wx:key="key"
+      class="quick-item card"
+      data-path="{{item.path}}"
+      bindtap="onQuickActionTap"
+    >
+      <text class="title-md">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="memory-section">
+    <text class="title-md">最近重要记忆</text>
+    <view wx:for="{{recentImportantMemories}}" wx:key="id" class="card memory-card">
+      <text class="text-md">{{item.summary}}</text>
+      <text class="text-sm muted">{{item.timeText}}</text>
+    </view>
+  </view>
+</view>

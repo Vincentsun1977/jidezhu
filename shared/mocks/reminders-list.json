@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "requestId": "req_reminders_001",
+  "data": {
+    "dueNow": [
+      {
+        "reminderId": "rem_001",
+        "title": "晚上吃降压药",
+        "timeText": "现在",
+        "status": "pending",
+        "voiceText": "现在该吃降压药了",
+        "canPlay": true
+      }
+    ],
+    "laterToday": [
+      {
+        "reminderId": "rem_002",
+        "title": "记得买牛奶和鸡蛋",
+        "timeText": "今天 18:00",
+        "status": "pending",
+        "voiceText": "今天傍晚记得买牛奶和鸡蛋",
+        "canPlay": true
+      }
+    ],
+    "upcoming": []
+  }
+}

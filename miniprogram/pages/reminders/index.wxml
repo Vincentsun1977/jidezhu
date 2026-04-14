@@ -1,0 +1,50 @@
+<view class="page-shell">
+  <view wx:if="{{loading}}" class="card item">
+    <text class="text-md">正在整理提醒...</text>
+  </view>
+
+  <view wx:elif="{{errorMessage}}" class="card item">
+    <text class="text-md">{{errorMessage}}</text>
+  </view>
+
+  <view wx:elif="{{!dueNow.length && !laterToday.length && !upcoming.length}}" class="card item">
+    <text class="text-md">今天暂时没有新的提醒</text>
+    <text class="text-sm muted">您可以先在首页说一句需要提醒的话。</text>
+  </view>
+
+  <view class="group">
+    <text class="title-md">现在要做</text>
+    <view wx:for="{{dueNow}}" wx:key="reminderId" class="card item">
+      <text class="text-md">{{item.title}}</text>
+      <text class="text-sm muted">{{item.timeText}}</text>
+      <view class="actions">
+        <button class="action-btn" data-reminder-id="{{item.reminderId}}" data-action="done" bindtap="handleAction">完成</button>
+        <button class="action-btn secondary" data-reminder-id="{{item.reminderId}}" data-action="snooze_30m" bindtap="handleAction">稍后提醒</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="group">
+    <text class="title-md">今天稍后</text>
+    <view wx:for="{{laterToday}}" wx:key="reminderId" class="card item">
+      <text class="text-md">{{item.title}}</text>
+      <text class="text-sm muted">{{item.timeText}}</text>
+      <view class="actions">
+        <button class="action-btn" data-reminder-id="{{item.reminderId}}" data-action="done" bindtap="handleAction">完成</button>
+        <button class="action-btn secondary" data-reminder-id="{{item.reminderId}}" data-action="snooze_30m" bindtap="handleAction">稍后提醒</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="group">
+    <text class="title-md">最近几天</text>
+    <view wx:for="{{upcoming}}" wx:key="reminderId" class="card item">
+      <text class="text-md">{{item.title}}</text>
+      <text class="text-sm muted">{{item.timeText}}</text>
+      <view class="actions">
+        <button class="action-btn" data-reminder-id="{{item.reminderId}}" data-action="done" bindtap="handleAction">完成</button>
+        <button class="action-btn secondary" data-reminder-id="{{item.reminderId}}" data-action="snooze_30m" bindtap="handleAction">稍后提醒</button>
+      </view>
+    </view>
+  </view>
+</view>

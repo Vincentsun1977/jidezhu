@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/recall/index",
+    "pages/reminders/index",
+    "pages/settings/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "记得住",
+    "navigationBarBackgroundColor": "#F6EFE4",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F6EFE4",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

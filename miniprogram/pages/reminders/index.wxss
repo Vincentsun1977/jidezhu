@@ -1,0 +1,38 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.item {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  flex: 1;
+  border-radius: 18rpx;
+  background: #b64d2e;
+  color: #fffaf2;
+  font-size: 28rpx;
+}
+
+.secondary {
+  background: #e9dcc5;
+  color: #5f4a31;
+}
+
+.item-empty {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}

@@ -1,0 +1,150 @@
+.home-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+}
+
+.home-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.settings-entry {
+  min-width: 132rpx;
+  min-height: 72rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: #f3e7d0;
+  color: #6b4f2b;
+  font-size: 28rpx;
+  line-height: 72rpx;
+}
+
+.summary-card {
+  padding: 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.summary-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.summary-play-btn {
+  min-width: 144rpx;
+  border-radius: 999rpx;
+  background: #f3e7d0;
+  color: #6b4f2b;
+  font-size: 26rpx;
+}
+
+.voice-hub-card {
+  margin-top: 24rpx;
+  padding: 32rpx 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18rpx;
+  background: linear-gradient(180deg, #fff9f2 0%, #f5e4cf 100%);
+}
+
+.voice-hub-examples {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.support-actions-grid {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+}
+
+.support-action-card {
+  padding: 28rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18rpx;
+  background: linear-gradient(180deg, #fffefb 0%, #efe1c6 100%);
+}
+
+.text-entry-btn,
+.save-btn {
+  width: 100%;
+  border-radius: 18rpx;
+  background: #e9dcc5;
+  color: #5f4a31;
+  font-size: 28rpx;
+}
+
+.recall-entry-btn {
+  width: 100%;
+  border-radius: 18rpx;
+  background: #b64d2e;
+  color: #fffaf2;
+  font-size: 30rpx;
+}
+
+.recall-hints {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  width: 100%;
+}
+
+.quick-grid {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+}
+
+.quick-item {
+  min-height: 144rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.memory-section {
+  margin-top: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.memory-card {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.text-entry-card {
+  margin-top: 24rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.text-entry-area {
+  width: 100%;
+  min-height: 180rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  border: 2rpx solid #d9c8a9;
+  box-sizing: border-box;
+  font-size: 30rpx;
+}

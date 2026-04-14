@@ -1,0 +1,8 @@
+<view
+  class="record-circle {{pressing ? 'record-circle-active' : ''}}"
+  bindtouchstart="handleTouchStart"
+  bindtouchend="handleTouchEnd"
+  bindtouchcancel="handleTouchCancel"
+>
+  <text class="record-text">{{state === 'recording' ? '松开发送' : '按住说话'}}</text>
+</view>
