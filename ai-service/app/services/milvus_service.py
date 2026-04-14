@@ -9,7 +9,13 @@ from app.services.voice_pipeline import build_memory_summary, configure_dashscop
 from dashscope import TextEmbedding
 
 
+def is_milvus_enabled() -> bool:
+    return settings.vector_db_provider == "milvus" and bool(settings.milvus_uri)
+
+
 def get_milvus_client() -> MilvusClient:
+    if not is_milvus_enabled():
+        raise RuntimeError("Milvus is disabled")
     kwargs: Dict[str, Any] = {
         "uri": settings.milvus_uri,
         "db_name": settings.milvus_database,
@@ -20,6 +26,16 @@ def get_milvus_client() -> MilvusClient:
 
 
 def get_milvus_status() -> dict:
+    if not is_milvus_enabled():
+        return {
+            "provider": settings.vector_db_provider or "none",
+            "uri": settings.milvus_uri,
+            "database": settings.milvus_database,
+            "connected": False,
+            "collection": settings.milvus_collection,
+            "collectionExists": False,
+            "disabled": True,
+        }
     client = get_milvus_client()
     root_client_kwargs: Dict[str, Any] = {"uri": settings.milvus_uri}
     if settings.milvus_token:
@@ -41,6 +57,12 @@ def get_milvus_status() -> dict:
 
 
 def ensure_milvus_collection() -> dict:
+    if not is_milvus_enabled():
+        return {
+            "created": False,
+            "collection": settings.milvus_collection,
+            "disabled": True,
+        }
     client = get_milvus_client()
     collections = client.list_collections()
 
@@ -152,6 +174,17 @@ def generate_embedding(text: str) -> dict:
 
 
 def upsert_memory_vector(payload: dict) -> dict:
+    if not is_milvus_enabled():
+        search_text = build_search_text(payload)
+        return {
+            "memoryId": str(payload.get("memoryId", "")).strip(),
+            "vectorDocId": "",
+            "provider": "vector_disabled",
+            "searchText": search_text,
+            "collection": settings.milvus_collection,
+            "database": settings.milvus_database,
+            "disabled": True,
+        }
     client = get_milvus_client()
     ensure_milvus_collection()
     search_text = build_search_text(payload)
@@ -184,6 +217,16 @@ def upsert_memory_vector(payload: dict) -> dict:
 
 
 def search_memory_vectors(user_id: str, query: str, limit: int = 8, memory_types: Optional[List[str]] = None) -> dict:
+    if not is_milvus_enabled():
+        return {
+            "provider": "vector_disabled",
+            "queryText": query,
+            "hits": [],
+            "filter": "",
+            "collection": settings.milvus_collection,
+            "database": settings.milvus_database,
+            "disabled": True,
+        }
     client = get_milvus_client()
     ensure_milvus_collection()
     memory_types = memory_types or []
