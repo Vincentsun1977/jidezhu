@@ -6,6 +6,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const _ = db.command;
 const AI_SERVICE_BASE_URL = process.env.AI_SERVICE_BASE_URL || "";
+const VECTOR_SERVICE_BASE_URL = process.env.VECTOR_SERVICE_BASE_URL || AI_SERVICE_BASE_URL || "";
 const AI_SERVICE_TOKEN = process.env.AI_SERVICE_TOKEN || "";
 
 function requestJson(url, payload) {
@@ -45,7 +46,7 @@ function requestJson(url, payload) {
 }
 
 async function syncMemoryVector(memory) {
-  const result = await requestJson(`${AI_SERVICE_BASE_URL}/api/v1/vector/upsert-memory`, {
+  const result = await requestJson(`${VECTOR_SERVICE_BASE_URL}/api/v1/vector/upsert-memory`, {
     memoryId: memory._id,
     userId: memory.userId,
     summary: memory.summary || "",
@@ -64,13 +65,13 @@ async function syncMemoryVector(memory) {
 }
 
 exports.main = async (event) => {
-  if (!AI_SERVICE_BASE_URL) {
+  if (!VECTOR_SERVICE_BASE_URL) {
     return {
       success: false,
       requestId: "cf_backfill_vectors_no_base_url",
       error: {
-        code: "MISSING_AI_SERVICE_BASE_URL",
-        message: "AI_SERVICE_BASE_URL is empty",
+        code: "MISSING_VECTOR_SERVICE_BASE_URL",
+        message: "VECTOR_SERVICE_BASE_URL is empty",
       },
     };
   }

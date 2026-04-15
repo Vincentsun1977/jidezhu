@@ -476,17 +476,25 @@ def summarize_recall_results(query: str, items: list[dict]) -> dict:
 
     fallback_ids = [item.get("memoryId") for item in items[:5] if item.get("memoryId")]
     fallback_top = items[0]
-    fallback_summary = (
-        f"我先帮您找到一条最相关的回忆：{fallback_top.get('summary', '一条记忆')}。"
-        if fallback_top.get("summary")
-        else f"我帮您找到了 {len(items)} 条相关回忆。"
-    )
+    top_summary = str(fallback_top.get("summary", "")).strip() or "一条记忆"
+    query_text = query.strip()
+
+    if any(token in query_text for token in ["医院", "体检", "看病", "复查"]):
+        fallback_summary = f"我先帮您想起来了，最相关的一条是：{top_summary}。"
+    elif any(token in query_text for token in ["会议", "项目", "开会"]):
+        fallback_summary = f"我先帮您找到最相关的会议记录：{top_summary}。"
+    elif any(token in query_text for token in ["有没有", "是不是", "提过"]):
+        fallback_summary = f"我找到一条最相关的记录：{top_summary}。"
+    else:
+        fallback_summary = f"我先帮您想到一条最相关的回忆：{top_summary}。"
 
     prompt = (
-        "你是一个老人语音记忆助手，请根据用户查询，从候选记忆中挑出最相关的结果，并生成一句老人能听懂的回答。"
-        "回答要尽量直接回答用户的问题，先说结论，再少量补充。"
-        "如果用户在问哪个医院、什么会议、什么时候，优先直接说出医院名、会议内容或时间。"
-        "如果候选里没有足够确定的答案，就说暂时只找到这些相关记录，不要编造。"
+        "你是一个老人语音记忆助手，请根据用户查询，从候选记忆中挑出最相关的结果，并生成一句老人能听懂、像家人提醒一样自然的回答。"
+        "回答必须先说结论，再少量补充，优先直接回答问题本身，不要先说找到了几条。"
+        "如果用户在问哪个医院、什么会议、什么时候、有没有提过，尽量直接说出医院名、会议内容、时间或结论。"
+        "如果候选里没有足够确定的答案，就说目前只找到这些相关记录，不要编造。"
+        "语气要温和、简洁、口语化，像：'我帮您想起来了，您提到的是……'、'我先帮您找到最相关的一条……'。"
+        "summary 最多两句话，尽量控制在 40 个汉字以内。"
         "请只输出 JSON，不要解释。"
         '输出格式：{"summary":"...","selectedMemoryIds":["id1","id2","id3"]}。'
         f"用户查询：{query}\n"

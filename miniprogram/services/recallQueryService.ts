@@ -19,6 +19,7 @@ export async function recallQuery(query: string) {
           sourceText?: string;
         }>;
         replyAudioFileId?: string;
+        debug?: Record<string, unknown> | null;
       };
     }>({
       name: "recallQuery",
@@ -29,6 +30,10 @@ export async function recallQuery(query: string) {
     });
 
     if (result.result?.success && result.result.data) {
+      const debug = result.result.data.debug || null;
+      if (debug) {
+        console.log("recallQuery debug", debug);
+      }
       return {
         summaryText: result.result.data.summary,
         items: (result.result.data.items || []).map((item) => ({
@@ -37,6 +42,7 @@ export async function recallQuery(query: string) {
           timeText: item.timeText,
           sourceText: item.sourceText || item.summary,
         })),
+        debug,
       };
     }
   } catch (error) {

@@ -6,6 +6,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const _ = db.command;
 const AI_SERVICE_BASE_URL = process.env.AI_SERVICE_BASE_URL || "";
+const VECTOR_SERVICE_BASE_URL = process.env.VECTOR_SERVICE_BASE_URL || AI_SERVICE_BASE_URL || "";
 const AI_SERVICE_TOKEN = process.env.AI_SERVICE_TOKEN || "";
 
 function buildDisplaySummary(item) {
@@ -105,6 +106,15 @@ function resolveRange(query, scope) {
     return { label: "本月", start: start.toISOString(), end };
   }
 
+  const recallLikeQuery =
+    /我上次|我之前|我以前|我有没有|我是不是|我去过|我说过|哪个|哪家|哪里|什么|什么时候|几点|多少|帮我找|帮我查|帮我想想/.test(
+      text
+    );
+  if (recallLikeQuery) {
+    const start = new Date(now.getFullYear() - 5, 0, 1);
+    return { label: "这段时间", start: start.toISOString(), end };
+  }
+
   const day = now.getDay() || 7;
   const lastWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day - 6);
   const lastWeekEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day + 1);
@@ -194,6 +204,12 @@ exports.main = async (event) => {
     memoryTypes: [],
   };
   let vectorHits = [];
+  let vectorSearchDebug = {
+    enabled: Boolean(VECTOR_SERVICE_BASE_URL),
+    baseUrl: VECTOR_SERVICE_BASE_URL ? "configured" : "missing",
+    hitCount: 0,
+    error: "",
+  };
 
   if (AI_SERVICE_BASE_URL) {
     try {
@@ -208,27 +224,34 @@ exports.main = async (event) => {
   }
 
   const range = resolveRange(query, queryMeta.timeScope);
-  const vectorScoreMap = buildScoreMap(vectorHits);
-  if (AI_SERVICE_BASE_URL) {
+  if (VECTOR_SERVICE_BASE_URL) {
     try {
-      const vectorResult = await requestJson(`${AI_SERVICE_BASE_URL}/api/v1/vector/search-memories`, {
+      const vectorResult = await requestJson(`${VECTOR_SERVICE_BASE_URL}/api/v1/vector/search-memories`, {
         userId,
         query,
         limit: 12,
         memoryTypes: queryMeta.memoryTypes || [],
       });
       vectorHits = vectorResult?.data?.hits || [];
+      vectorSearchDebug.hitCount = vectorHits.length;
     } catch (error) {
       console.warn("recallQuery vector search fallback", error);
+      vectorSearchDebug.error = String(error && error.message ? error.message : error).slice(0, 500);
     }
   }
+  const vectorScoreMap = buildScoreMap(vectorHits);
+
+  const whereCondition =
+    queryMeta.timeScope === "all" || range.label === "这段时间"
+      ? { userId }
+      : {
+          userId,
+          createdAt: _.gte(range.start).and(_.lt(range.end)),
+        };
 
   const result = await db
     .collection("memories")
-    .where({
-      userId,
-      createdAt: _.gte(range.start).and(_.lt(range.end)),
-    })
+    .where(whereCondition)
     .orderBy("createdAt", "desc")
     .limit(100)
     .get();
@@ -247,7 +270,11 @@ exports.main = async (event) => {
         _id: _.in(vectorIds),
       })
       .get();
-    mergedMemories = mergedMemories.concat(vectorResult.data.filter((item) => withinDateRange(item, range)));
+    mergedMemories = mergedMemories.concat(
+      vectorResult.data.filter((item) =>
+        queryMeta.timeScope === "all" || range.label === "这段时间" ? true : withinDateRange(item, range)
+      )
+    );
   }
 
   let candidateItems = mergedMemories
@@ -279,6 +306,7 @@ exports.main = async (event) => {
   }
 
   candidateItems = rankCandidateItems(candidateItems, vectorScoreMap, queryMeta);
+  const candidateMemoryIds = candidateItems.map((item) => item.memoryId);
 
   let items = candidateItems;
   let summary =
@@ -331,6 +359,14 @@ exports.main = async (event) => {
       summary,
       items,
       replyAudioFileId: "",
+      debug: {
+        query,
+        queryMeta,
+        range,
+        vectorSearch: vectorSearchDebug,
+        vectorHitMemoryIds: vectorHits.map((item) => item.memoryId),
+        candidateMemoryIds,
+      },
     },
   };
 };

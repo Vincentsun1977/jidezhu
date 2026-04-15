@@ -5,6 +5,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
 const AI_SERVICE_BASE_URL = process.env.AI_SERVICE_BASE_URL || "";
+const VECTOR_SERVICE_BASE_URL = process.env.VECTOR_SERVICE_BASE_URL || AI_SERVICE_BASE_URL || "";
 const AI_SERVICE_TOKEN = process.env.AI_SERVICE_TOKEN || "";
 
 function buildSummary(text) {
@@ -66,16 +67,16 @@ function requestJson(url, payload) {
 }
 
 async function syncMemoryVector(memory) {
-  if (!AI_SERVICE_BASE_URL) {
+  if (!VECTOR_SERVICE_BASE_URL) {
     return {
       ok: false,
-      error: "AI_SERVICE_BASE_URL is empty",
+      error: "VECTOR_SERVICE_BASE_URL is empty",
       status: "pending",
     };
   }
 
   try {
-    const result = await requestJson(`${AI_SERVICE_BASE_URL}/api/v1/vector/upsert-memory`, {
+    const result = await requestJson(`${VECTOR_SERVICE_BASE_URL}/api/v1/vector/upsert-memory`, {
       memoryId: memory.memoryId,
       userId: memory.userId,
       summary: memory.summary,

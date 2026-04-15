@@ -16,6 +16,10 @@ export async function recallQuery(query) {
     });
 
     if (result.result && result.result.success && result.result.data) {
+      const debug = result.result.data.debug || null;
+      if (debug) {
+        console.log("recallQuery debug", debug);
+      }
       return {
         summaryText: result.result.data.summary,
         items: (result.result.data.items || []).map((item) => ({
@@ -24,6 +28,7 @@ export async function recallQuery(query) {
           timeText: item.timeText,
           sourceText: item.sourceText || item.summary,
         })),
+        debug,
       };
     }
   } catch (error) {
