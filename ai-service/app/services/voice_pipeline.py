@@ -312,9 +312,15 @@ def classify_voice_intent(text: str) -> dict:
         r"什么地方",
         r"什么内容",
         r"哪天",
+        r"哪一天",
+        r"哪一节",
+        r"哪次",
+        r"是哪天",
+        r"是哪一天",
         r"什么时候",
         r"几点",
         r"多少",
+        r"来着",
         r"有没有提过",
         r"有没有说过",
         r"记得.*吗",
@@ -330,7 +336,26 @@ def classify_voice_intent(text: str) -> dict:
     if any(re.search(pattern, content) for pattern in recall_patterns):
         return {"intent": "memory_recall", "confidence": 0.92, "provider": "rule", "reason": "recall_pattern"}
 
-    interrogative_markers = ["吗", "呢", "么", "哪个", "哪家", "哪里", "什么", "怎么", "几", "多少", "是不是", "有没有"]
+    interrogative_markers = [
+        "吗",
+        "呢",
+        "么",
+        "呀",
+        "哪个",
+        "哪家",
+        "哪里",
+        "哪天",
+        "哪一天",
+        "哪一节",
+        "哪次",
+        "什么",
+        "怎么",
+        "几",
+        "多少",
+        "是不是",
+        "有没有",
+        "来着",
+    ]
     if any(marker in content for marker in interrogative_markers):
         return {"intent": "memory_recall", "confidence": 0.82, "provider": "rule", "reason": "interrogative_marker"}
 
